@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Heading } from "../components/heading";
 import { Button } from "../components/Button";
 import { Input } from "../components/input";
 
 const Welcome = () => {
+  const [nameValue, setNameValue] = useState("");
+  const [phoneValue, setPhoneValue] = useState("");
   return (
     <div className="container">
       <div className="wrapper">
@@ -14,6 +16,8 @@ const Welcome = () => {
           />
           <form className="welcome__form">
             <Input
+              value={nameValue}
+              onChange={setNameValue}
               id="username"
               isRequired
               inputLabel="Ваше имя"
@@ -21,6 +25,8 @@ const Welcome = () => {
               errorMessage="Введите ваше имя"
             />
             <Input
+              value={phoneValue}
+              onChange={setPhoneValue}
               id="phone"
               isRequired
               inputLabel="Ваш номер"
