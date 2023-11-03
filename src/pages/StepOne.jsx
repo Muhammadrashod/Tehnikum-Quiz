@@ -34,8 +34,8 @@ const StepOne = () => {
                 errorMessage="Напишите свой ответ"
               />
               <Span
+                id="error-message"
                 text="Введите номер в правильном формате например"
-                id="indicator__value"
               />
             </label>
             <Button
