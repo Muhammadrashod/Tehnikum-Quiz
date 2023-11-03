@@ -6,6 +6,9 @@ import { Input } from "../components/input";
 const Welcome = () => {
   const [nameValue, setNameValue] = useState("");
   const [phoneValue, setPhoneValue] = useState("");
+
+  const [nameError, setNameError] = useState(false);
+  const [phoneError, setPhoneError] = useState(false);
   return (
     <div className="container">
       <div className="wrapper">
@@ -16,6 +19,7 @@ const Welcome = () => {
           />
           <form className="welcome__form">
             <Input
+              hasError={nameError}
               value={nameValue}
               onChange={setNameValue}
               id="username"
@@ -25,6 +29,7 @@ const Welcome = () => {
               errorMessage="Введите ваше имя"
             />
             <Input
+              hasError={phoneError}
               value={phoneValue}
               onChange={setPhoneValue}
               id="phone"
