@@ -1,4 +1,8 @@
 import React from "react";
+import { Heading } from "../components/heading";
+import { Button } from "../components/Button";
+import { Input } from "../components/input";
+import { Span } from "../components/span";
 
 const StepOne = () => {
   return (
@@ -7,10 +11,11 @@ const StepOne = () => {
         <div className="single-input-quiz">
           <div className="indicator">
             <div className="indicator__text">
-              <span className="indicator__description">
-                Скидка за прохождение опроса:
-              </span>
-              <span className="indicator__value">15%</span>
+              <Span
+                text="Скидка за прохождение опроса:"
+                className="indicator__description"
+              />
+              <Span text="15%" className="indicator__value" />
             </div>
             <div className="indicator__progressbar">
               <div className="indicator__unit indicator__unit-1"></div>
@@ -20,21 +25,25 @@ const StepOne = () => {
             </div>
           </div>
           <div className="question">
-            <h2>1. Занимательный вопрос</h2>
+            <Heading text="Занимательный вопрос" headingType="h2" />
             <label className="input-wrapper">
-              <input
-                required
-                type="text"
-                name="answer"
-                placeholder="Ваш ответ"
+              <Input
+                id="username"
+                isRequired
+                inputPlaceholder="Ваш ответ"
+                errorMessage="Напишите свой ответ"
               />
-              <span id="error-message">
-                Введите номер в правильном формате например
-              </span>
+              <Span
+                text="Введите номер в правильном формате например"
+                id="indicator__value"
+              />
             </label>
-            <button type="button" disabled id="next-btn">
-              Далее
-            </button>
+            <Button
+              buttonType="button"
+              buttonText="Далее"
+              isDisabled
+              id="next-btn"
+            />
           </div>
         </div>
       </div>
