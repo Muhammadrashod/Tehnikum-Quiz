@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { Heading } from "../components/heading";
 import { Button } from "../components/Button";
 import { Input } from "../components/input";
 import { Span } from "../components/span";
 
 const StepOne = () => {
+  const [answerValue, setAnswerValue] = useState("");
+  const [answerError, setAnswerError] = useState(false);
+
+
+  const clickHandler = () => {
+    if (!answerValue) {
+      setAnswerError(true);
+    } else {
+      setAnswerError(false);
+    }
+  };
+
   return (
     <div className="container">
       <div className="wrapper">
@@ -28,6 +40,9 @@ const StepOne = () => {
             <Heading text="Занимательный вопрос" headingType="h2" />
             <label className="input-wrapper">
               <Input
+                hasError={answerError}
+                value={answerValue}
+                onChange={setAnswerValue}
                 id="username"
                 isRequired
                 inputPlaceholder="Ваш ответ"
@@ -39,6 +54,7 @@ const StepOne = () => {
               />
             </label>
             <Button
+              onclick={clickHandler}
               buttonType="button"
               buttonText="Далее"
               isDisabled

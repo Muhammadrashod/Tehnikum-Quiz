@@ -9,6 +9,21 @@ const Welcome = () => {
 
   const [nameError, setNameError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
+
+  const clickHandler = () => {
+    if (!nameValue) {
+      setNameError(true);
+    } else {
+      setNameError(false);
+    }
+
+    if (!phoneValue) {
+      setPhoneError(true);
+    } else {
+      setPhoneError(false);
+    }
+  };
+
   return (
     <div className="container">
       <div className="wrapper">
@@ -38,7 +53,11 @@ const Welcome = () => {
               inputPlaceholder="+998 9- --- -- --"
               errorMessage="Введите номер в правильном формате"
             />
-            <Button buttonType="button" buttonText="Далее" />
+            <Button
+              onclick={clickHandler}
+              buttonType="button"
+              buttonText="Далее"
+            />
           </form>
         </div>
       </div>
