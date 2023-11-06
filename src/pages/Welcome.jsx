@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Heading } from "../components/heading";
 import { Button } from "../components/Button";
-import { Input } from "../components/input";
 
+import { Heading } from "../components/heading";
+import { Input } from "../components/input";
 const Welcome = () => {
   const [nameValue, setNameValue] = useState("");
   const [phoneValue, setPhoneValue] = useState("");
@@ -29,8 +29,8 @@ const Welcome = () => {
       <div className="wrapper">
         <div className="welcome">
           <Heading
-            text="Добро пожаловать в квиз от лучшего учебного центра"
             headingType="h1"
+            text="Добро пожаловать в квиз от лучшего учебного центра"
           />
           <form className="welcome__form">
             <Input
@@ -49,12 +49,13 @@ const Welcome = () => {
               onChange={setPhoneValue}
               id="phone"
               isRequired
-              inputLabel="Ваш номер"
-              inputPlaceholder="+998 9- --- -- --"
+              inputLabel="Ваше номер"
+              inputPlaceholder="Ваш ответ"
               errorMessage="Введите номер в правильном формате"
             />
+            <label className="input-wrapper" htmlFor="username"></label>
             <Button
-              onclick={clickHandler}
+              onClick={clickHandler}
               buttonType="button"
               buttonText="Далее"
             />

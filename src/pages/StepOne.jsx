@@ -8,7 +8,6 @@ const StepOne = () => {
   const [answerValue, setAnswerValue] = useState("");
   const [answerError, setAnswerError] = useState(false);
 
-
   const clickHandler = () => {
     if (!answerValue) {
       setAnswerError(true);
@@ -54,10 +53,10 @@ const StepOne = () => {
               />
             </label>
             <Button
-              onclick={clickHandler}
+              onClick={clickHandler}
               buttonType="button"
               buttonText="Далее"
-              isDisabled
+              isDisabled={false}
               id="next-btn"
             />
           </div>
