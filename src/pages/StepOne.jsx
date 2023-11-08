@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { Heading } from "../components/heading";
-import { Button } from "../components/Button";
 import { Input } from "../components/input";
 import { Span } from "../components/span";
+import { LinkButton } from "../components/LinkButton"
+import { ProgressBar } from "../components/ProgressBar";
 
 const StepOne = () => {
   const [answerValue, setAnswerValue] = useState("");
   const [answerError, setAnswerError] = useState(false);
+
+  
 
   const clickHandler = () => {
     if (!answerValue) {
@@ -20,21 +23,7 @@ const StepOne = () => {
     <div className="container">
       <div className="wrapper">
         <div className="single-input-quiz">
-          <div className="indicator">
-            <div className="indicator__text">
-              <Span
-                text="Скидка за прохождение опроса:"
-                className="indicator__description"
-              />
-              <Span text="15%" className="indicator__value" />
-            </div>
-            <div className="indicator__progressbar">
-              <div className="indicator__unit indicator__unit-1"></div>
-              <div className="indicator__unit indicator__unit-2"></div>
-              <div className="indicator__unit indicator__unit-3"></div>
-              <div className="indicator__unit indicator__unit-4"></div>
-            </div>
-          </div>
+        <ProgressBar currentStep={1}/>
           <div className="question">
             <Heading text="Занимательный вопрос" headingType="h2" />
             <label className="input-wrapper">
@@ -52,11 +41,12 @@ const StepOne = () => {
                 text="Введите номер в правильном формате например"
               />
             </label>
-            <Button
+            <LinkButton
+              path="/step-two"
               onClick={clickHandler}
               buttonType="button"
               buttonText="Далее"
-              isDisabled={false}
+              isDisabled={!answerValue} 
               id="next-btn"
             />
           </div>

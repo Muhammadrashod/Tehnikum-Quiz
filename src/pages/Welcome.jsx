@@ -1,27 +1,54 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../components/Button";
 
 import { Heading } from "../components/heading";
 import { Input } from "../components/input";
+
 const Welcome = () => {
+  const navigate = useNavigate();
+
   const [nameValue, setNameValue] = useState("");
   const [phoneValue, setPhoneValue] = useState("");
 
   const [nameError, setNameError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
 
-  const clickHandler = () => {
+  const goToNextPage = () => {
+    if (nameValue && phoneValue) {
+      navigate("/step-one");
+    }
+  };
+
+  const validateName = () => {
     if (!nameValue) {
       setNameError(true);
     } else {
       setNameError(false);
     }
+  };
 
+  const validatePhone = () => {
     if (!phoneValue) {
       setPhoneError(true);
     } else {
       setPhoneError(false);
     }
+  };
+
+  const handleNameInput = (value) => {
+    setNameValue(value);
+    validateName();
+  };
+  const handlePhoneInput = (value) => {
+    setPhoneValue(value);
+    validatePhone();
+  };
+
+  const clickHandler = () => {
+    validateName();
+    validatePhone();
+    goToNextPage();
   };
 
   return (
@@ -36,7 +63,7 @@ const Welcome = () => {
             <Input
               hasError={nameError}
               value={nameValue}
-              onChange={setNameValue}
+              onChange={(value) => handleNameInput(value)}
               id="username"
               isRequired
               inputLabel="Ваше имя"
@@ -46,7 +73,7 @@ const Welcome = () => {
             <Input
               hasError={phoneError}
               value={phoneValue}
-              onChange={setPhoneValue}
+              onChange={(value) => handlePhoneInput(value)}
               id="phone"
               isRequired
               inputLabel="Ваше номер"

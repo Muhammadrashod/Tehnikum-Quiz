@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Progressbar } from "../components/ProgressBar";
+import { ProgressBar } from "../components/ProgressBar";
 import { AnswerItem } from "../components/AnswerItem";
-
+import { LinkButton } from "../components/LinkButton";
+import { Heading } from "../components/heading";
 const StepTwo = () => {
   const [checkedAnswer, setCheckedAnswer] = useState(null);
 
@@ -32,9 +33,9 @@ const StepTwo = () => {
     <div className="container">
       <div className="wrapper">
         <div className="variants-quiz">
-          <Progressbar />
+          <ProgressBar currentStep={2} />
           <div className="question">
-            <h2>1. Занимательный вопрос</h2>
+          <Heading text="1. Занимательный вопрос" headingType="h2" />
             <ul className="variants">
               {variants.map((elem) => (
                 <AnswerItem
@@ -46,9 +47,13 @@ const StepTwo = () => {
                 />
               ))}
             </ul>
-            <button type="button" disabled id="next-btn">
-              Далее
-            </button>
+            <LinkButton
+              path="/step-three"
+              buttonType="button"
+              buttonText="Далее"
+              isDisabled={!checkedAnswer} 
+              id="next-btn"
+            />
           </div>
         </div>
       </div>
