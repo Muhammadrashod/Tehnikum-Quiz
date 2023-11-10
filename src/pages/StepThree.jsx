@@ -10,18 +10,22 @@ const StepThree = () => {
     {
       id: "variant-1",
       answerLabel: "Ваш Ответ 1",
+      src:"./img/laugh.png"
     },
     {
       id: "variant-2",
       answerLabel: "Ваш Ответ 2",
+      src:"./img/hearts.png"
     },
     {
       id: "variant-3",
       answerLabel: "Ваш Ответ 3",
+      src:"./img/smirk.png"
     },
     {
       id: "variant-4",
       answerLabel: "Ваш Ответ 4",
+      src:"./img/fright.png"
     },
   ];
 
@@ -35,7 +39,7 @@ const StepThree = () => {
             <ul className="emoji-variants">
               {variants.map((elem) => (
                 <AnswerPhoto
-                  src="./img/laugh.png"
+                  src={elem.src}
                   key={elem.id}
                   id={elem.id}
                   answerLabel={elem.answerLabel}

@@ -45,6 +45,26 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: ease-in-out 0.3s;
+  background: #fff;
+}
+
+.container._dark {
+  background: #22222a;
+  color: #f3f2ff;
+}
+
+._dark .input-wrapper input {
+  background: #22222a;
+  color: #fff;
+}
+
+._dark .input-wrapper input::placeholder {
+  color: #f3f2ff;
+}
+
+._dark button:enabled:hover {
+  background: #22222a;
 }
 
 .wrapper {
@@ -98,12 +118,15 @@ input {
   width: 100%;
   padding: 12px 0;
   border-bottom: 1px solid #aeb4c2;
+  background: #fff;
+  transition: ease-in-out 0.3s;
 }
 input::-moz-placeholder {
   color: #5a6684;
 }
 input::placeholder {
   color: #5a6684;
+  transition: ease-in-out 0.3s;
 }
 input:focus {
   border-bottom-color: #a497f9;
@@ -133,7 +156,7 @@ button:disabled {
   background-color: #b8bcc5;
 }
 button:enabled:hover {
-  background-color: transparent;
+  background-color: #fff;
   border-color: #a497f9;
   color: #a497f9;
   box-shadow: 0 0 20px #a497f9;
@@ -224,7 +247,6 @@ button:enabled:active {
 .question input[type=text] {
   margin-bottom: 32px;
 }
-
 .emoji-variants {
   list-style: none;
   margin-bottom: 32px;

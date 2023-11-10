@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/Button";
 
 import { Heading } from "../components/heading";
 import { Input } from "../components/input";
+import { ThemeContext, themes } from "../contexts/themeContext";
 
 const Welcome = () => {
   const navigate = useNavigate();
@@ -13,6 +14,8 @@ const Welcome = () => {
 
   const [nameError, setNameError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
+
+  const { theme, toggleTheme } =useContext(ThemeContext)
 
   const goToNextPage = () => {
     if (nameValue && phoneValue) {
@@ -52,9 +55,10 @@ const Welcome = () => {
   };
 
   return (
-    <div className="container">
+    <div className={`container ${theme === themes.light && '_dark'}`}>
       <div className="wrapper">
         <div className="welcome">
+          <button type="button" onClick={toggleTheme}>Переключи тему</button>
           <Heading
             headingType="h1"
             text="Добро пожаловать в квиз от лучшего учебного центра"

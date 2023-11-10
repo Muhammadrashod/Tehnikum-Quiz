@@ -1,6 +1,6 @@
 import React from "react";
 
-export const AnswerFour = (id, answerLabel, isChecked, onChange) => {
+export const AnswerFour = ({id, answerLabel, isChecked, onChange}) => {
   return (
     <li className="variant-wrapper">
       <input
