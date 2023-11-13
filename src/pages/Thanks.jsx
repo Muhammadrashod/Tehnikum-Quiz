@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import { QuizContext } from "../contexts/QuizContext";
 
 const Thanks = () => {
+  const { userAnswers } = useContext(QuizContext);
+  const selectedAnswer = userAnswers["answerId"];
+
   return (
     <div className="container">
       <div className="wrapper">
@@ -8,6 +12,7 @@ const Thanks = () => {
           <img src="./img/bell.png" alt="bell" />
           <h1>Спасибо за прохождение опроса!</h1>
           <p>Получи свою скидку по ссылке ниже или другое блаблабла</p>
+          <p>Ваш выбранный ответ: {selectedAnswer}</p>
           <button type="button" id="get-link">
             Получить ссылку
           </button>

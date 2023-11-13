@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ProgressBar } from "../components/ProgressBar";
 import { AnswerItem } from "../components/AnswerItem";
 import { LinkButton } from "../components/LinkButton";
 import { Heading } from "../components/heading";
+import { QuizContext } from "../contexts/QuizContext";
+
 const StepTwo = () => {
+  const { userAnswers, saveUserAnswer } = useContext(QuizContext);
   const [checkedAnswer, setCheckedAnswer] = useState(null);
 
   const variants = [
@@ -26,8 +29,13 @@ const StepTwo = () => {
   ];
 
   useEffect(() => {
-   console.log('Ваш вариант', checkedAnswer);
-  }, [checkedAnswer])
+    console.log("Ваш вариант", userAnswers);
+  }, [userAnswers]);
+
+  const handleAnswerChange = (answerId) => {
+    setCheckedAnswer(answerId);
+    saveUserAnswer("question2", answerId);
+  };
 
   return (
     <div className="container">
@@ -35,14 +43,14 @@ const StepTwo = () => {
         <div className="variants-quiz">
           <ProgressBar currentStep={2} />
           <div className="question">
-          <Heading text="1. Занимательный вопрос" headingType="h2" />
+            <Heading text="1. Занимательный вопрос" headingType="h2" />
             <ul className="variants">
               {variants.map((elem) => (
                 <AnswerItem
                   key={elem.id}
                   id={elem.id}
                   answerLabel={elem.answerLabel}
-                  onChange={() => setCheckedAnswer(elem.id)}
+                  onChange={() => handleAnswerChange(elem.id)}
                   isChecked={elem.id === checkedAnswer}
                 />
               ))}
@@ -51,7 +59,7 @@ const StepTwo = () => {
               path="/step-three"
               buttonType="button"
               buttonText="Далее"
-              isDisabled={!checkedAnswer} 
+              isDisabled={!checkedAnswer}
               id="next-btn"
             />
           </div>
