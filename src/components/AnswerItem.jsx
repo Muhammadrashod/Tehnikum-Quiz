@@ -1,9 +1,10 @@
 import React from "react";
 
-export const AnswerItem = ({ id, answerLabel, isChecked, onChange,}) => {
+export const AnswerItem = ({ value, id, answerLabel, isChecked, onChange }) => {
   return (
     <li className="variant-wrapper">
       <input
+        value={value}
         onChange={onChange}
         checked={isChecked}
         required

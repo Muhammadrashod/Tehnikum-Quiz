@@ -1,10 +1,11 @@
 import React from "react";
 
-export const AnswerPhoto = ({ id, answerLabel, isChecked, onChange, src, alt }) => {
+export const AnswerPhoto = ({ value, id, answerLabel, isChecked, onChange, src, alt }) => {
   
  return (
     <li className="variant-wrapper">
       <input
+      value={value}
         onChange={onChange}
         checked={isChecked}
         required

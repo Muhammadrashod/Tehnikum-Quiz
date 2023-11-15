@@ -1,12 +1,12 @@
-import React, { useState, useContext,useEffect } from "react";
+import React, { useState } from "react";
 import { ProgressBar } from "../components/ProgressBar";
 import { AnswerPhoto } from "../components/AnswerPhoto";
 import { LinkButton } from "../components/LinkButton";
-import { QuizContext } from "../contexts/QuizContext";
+import { useQuizContext } from "../contexts/QuizContext";
 
-const StepThree = () => {
-  const { userAnswers, saveUserAnswer } = useContext(QuizContext);
-  const [checkedAnswer, setCheckedAnswer] = useState(null);
+const StepThree = ({ page, question }) => {
+  const { answers, updateAnswer } = useQuizContext();
+  const [checkedAnswer] = useState(null);
 
   const variants = [
     {
@@ -31,14 +31,9 @@ const StepThree = () => {
     },
   ];
 
-  useEffect(() => {
-    console.log("Ваш вариант", userAnswers);
-  }, [userAnswers]);
-
-
-  const handleAnswerChange = (answerId) => {
-    setCheckedAnswer(answerId);
-    saveUserAnswer("question3", answerId);
+  const handleAnswerChange = (event) => {
+    const answer = event.target.value;
+    updateAnswer(page, question, answer);
   };
 
   return (
@@ -51,11 +46,12 @@ const StepThree = () => {
             <ul className="emoji-variants">
               {variants.map((elem) => (
                 <AnswerPhoto
+                  value={answers[page][question] || ""}
                   src={elem.src}
                   key={elem.id}
                   id={elem.id}
                   answerLabel={elem.answerLabel}
-                  onChange={() => handleAnswerChange(elem.id)}
+                  onChange={handleAnswerChange}
                   isChecked={elem.id === checkedAnswer}
                 />
               ))}
