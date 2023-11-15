@@ -3,9 +3,8 @@ import { QuizContext } from "../contexts/QuizContext";
 
 const Thanks = () => {
   const { userAnswers } = useContext(QuizContext);
-  const selectedAnswer = userAnswers; // Предположим, что userAnswers - это объект с ответами
+  const selectedAnswer = userAnswers; 
 
-  // Преобразуем объект selectedAnswer в строку, чтобы его можно было отобразить
   const formattedSelectedAnswer = JSON.stringify(selectedAnswer);
 
   return (
@@ -15,7 +14,7 @@ const Thanks = () => {
           <img src="./img/bell.png" alt="bell" />
           <h1>Спасибо за прохождение опроса!</h1>
           <p>Получи свою скидку по ссылке ниже или другое блаблабла</p>
-          <p>Ваш выбранный ответ: {formattedSelectedAnswer}</p> {/* Отображаем преобразованную строку */}
+          <p>Ваши выбранные ответы: {formattedSelectedAnswer}</p> {}
           <button type="button" id="get-link">
             Получить ссылку
           </button>

@@ -27,7 +27,7 @@ const StepOne = () => {
         <div className="single-input-quiz">
           <ProgressBar currentStep={1} />
           <div className="question">
-            <Heading text="Занимательный вопрос" headingType="h2" />
+            <Heading text="1. Занимательный вопрос" headingType="h2" />
             <label className="input-wrapper">
               <Input
                 hasError={answerError}
