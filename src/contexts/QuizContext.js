@@ -1,26 +1,19 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState } from 'react';
 
-const QuizContext = createContext();
-
-export const useQuizContext = () => {
-  return useContext(QuizContext);
-};
+export const QuizContext = createContext();
 
 export const QuizProvider = ({ children }) => {
-  const [answers, setAnswers] = useState({});
+  const [userAnswers, setUserAnswers] = useState({});
 
-  const updateAnswer = (page, question, answer) => {
-    setAnswers(prevAnswers => ({
+  const saveUserAnswer = (questionId, answer) => {
+    setUserAnswers(prevAnswers => ({
       ...prevAnswers,
-      [page]: {
-        ...prevAnswers[page],
-        [question]: answer
-      }
+      [questionId]: answer
     }));
   };
 
   return (
-    <QuizContext.Provider value={{ answers, updateAnswer }}>
+    <QuizContext.Provider value={{ userAnswers, saveUserAnswer }}>
       {children}
     </QuizContext.Provider>
   );

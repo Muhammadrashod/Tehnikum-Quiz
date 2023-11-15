@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ProgressBar } from "../components/ProgressBar";
 import { AnswerFour } from "../components/AnswerFour";
 import { LinkButton } from "../components/LinkButton";
-import { useQuizContext } from "../contexts/QuizContext";
+import { QuizContext } from "../contexts/QuizContext";
 
-const StepFour = ({ page, question }) => {
-  const { answers, updateAnswer } = useQuizContext();
-  const [checkedAnswer] = useState(null);
+const StepFour = () => {
+  const { userAnswers, saveUserAnswer } = useContext(QuizContext);
+  const [checkedAnswer, setCheckedAnswer] = useState(null);
 
   const variants = [
     {
@@ -31,10 +31,14 @@ const StepFour = ({ page, question }) => {
     },
   ];
 
-  const handleAnswerChange = (event) => {
-    const answer = event.target.value;
-    updateAnswer(page, question, answer);
-  };
+  useEffect(() => {
+    console.log("Ваш вариант", userAnswers);
+  } ,[userAnswers]);
+
+  const handleAnswerChange = (answerId) => {
+    setCheckedAnswer(answerId);
+    saveUserAnswer("question4", answerId)
+  }
 
   return (
     <div className="container">
@@ -46,11 +50,10 @@ const StepFour = ({ page, question }) => {
             <ul className="level-variants">
               {variants.map((elem) => (
                 <AnswerFour
-                  value={answers[page][question] || ""}
                   key={elem.id}
                   id={elem.id}
                   answerLabel={elem.answerLabel}
-                  onChange={handleAnswerChange}
+                  onChange={() => handleAnswerChange(elem.id)}
                   isChecked={elem.id === checkedAnswer}
                 />
               ))}

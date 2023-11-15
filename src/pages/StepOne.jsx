@@ -1,21 +1,17 @@
-import React, {useState } from "react";
+import React, { useContext, useState } from "react";
 import { Heading } from "../components/heading";
 import { Input } from "../components/input";
 import { Span } from "../components/span";
 import { LinkButton } from "../components/LinkButton";
 import { ProgressBar } from "../components/ProgressBar";
-import { useQuizContext } from "../contexts/QuizContext";
+import { QuizContext } from "../contexts/QuizContext";
 
-const StepOne = ({ page, question }) => {
-  const { answers, updateAnswer } = useQuizContext;
+const StepOne = () => {
+  const { userAnswers, saveUserAnswer } = useContext(QuizContext);
+  const questionId = "question1"; 
 
-  const answerValue = answers;
+  const answerValue = userAnswers[questionId] || "";
   const [answerError, setAnswerError] = useState(false);
-
-  const handleAnswerChange = (event) => {
-    const answer = event.target.value;
-    updateAnswer(page, question, answer);
-  };
 
   const clickHandler = () => {
     if (!answerValue) {
@@ -35,8 +31,8 @@ const StepOne = ({ page, question }) => {
             <label className="input-wrapper">
               <Input
                 hasError={answerError}
-                value={answers[page][question] || ""}
-                onChange={handleAnswerChange}
+                value={answerValue}
+                  onChange={(value) => saveUserAnswer(questionId, value)}
                 id="username"
                 isRequired
                 inputPlaceholder="Ваш ответ"
