@@ -105,12 +105,15 @@ a {
   border-bottom-color: #eb5757;
 }
 .input-wrapper._error input::-moz-placeholder {
+
   color: #eb5757;
 }
 .input-wrapper._error input::placeholder {
+
   color: #eb5757;
 }
 .input-wrapper._error #error-message {
+
   display: block;
 }
 
@@ -370,3 +373,22 @@ button:enabled:active {
   text-align: center;
   margin-bottom: 16px;
 }/*# sourceMappingURL=main.css.map */
+
+.container input {
+  margin-bottom: 32px;
+}
+
+.AppCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.AppCheckbox input[type="checkbox"] {
+  flex: 0 0 24px;
+  height: 24px;
+  width: 24px;
+  accent-color: #5A6684;
+  margin: 0;
+}

@@ -9,6 +9,7 @@ import StepThree from "./pages/StepThree";
 import StepFour from "./pages/StepFour";
 import Thanks from "./pages/Thanks";
 import "./styles/main.css";
+import { AcceptPage } from "./pages/AcceptPage";
 
 const routerConfig = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const routerConfig = createBrowserRouter([
   {
     path: "/step-four",
     element: <StepFour />,
+  },
+  {
+    path: "/accept",
+    element: <AcceptPage />,
   },
   {
     path: "/thanks",

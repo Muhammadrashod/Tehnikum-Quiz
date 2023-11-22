@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Heading } from "../components/heading";
+import { Heading } from "../components/Heading";
 import { Input } from "../components/input";
 import { Span } from "../components/span";
 import { LinkButton } from "../components/LinkButton";

@@ -1,7 +1,7 @@
 import React, { useState, useContext,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/Button";
-import { Heading } from "../components/heading";
+import { Heading } from "../components/Heading";
 import { Input } from "../components/input";
 import { ThemeContext, themes } from "../contexts/themeContext";
 import { QuizContext } from "../contexts/QuizContext";

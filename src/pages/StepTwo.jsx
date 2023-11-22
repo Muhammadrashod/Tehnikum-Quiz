@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ProgressBar } from "../components/ProgressBar";
 import { AnswerItem } from "../components/AnswerItem";
 import { LinkButton } from "../components/LinkButton";
-import { Heading } from "../components/heading";
+import { Heading } from "../components/Heading";
 import { QuizContext } from "../contexts/QuizContext";
 
 const StepTwo = () => {

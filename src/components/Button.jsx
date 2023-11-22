@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Button = ({ buttonType, buttonText, isDisabled, onClick,id }) => {
+export const Button = ({ buttonType, buttonText, isDisabled, onClick, id }) => {
   return (
     <button
       disabled={isDisabled}
