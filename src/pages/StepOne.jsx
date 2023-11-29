@@ -1,25 +1,43 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import { Heading } from "../components/Heading";
-import { Input } from "../components/input";
+import { AppInput } from "../components/UI/AppInput";
 import { Span } from "../components/span";
-import { LinkButton } from "../components/LinkButton";
 import { ProgressBar } from "../components/ProgressBar";
-import { QuizContext } from "../contexts/QuizContext";
+import { Controller, useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Button } from "../components/Button";
+import { useNavigate } from "react-router-dom";
+
+const firstQuestionSchema = yup.object({
+  firstanswer: yup.string().required("Обьязательное поле"),
+});
 
 const StepOne = () => {
-  const { userAnswers, saveUserAnswer } = useContext(QuizContext);
-  const questionId = "question1"; 
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(firstQuestionSchema),
+    defaultValues: {
+      firstanswer: "",
+    },
+  });
 
-  const answerValue = userAnswers[questionId] || "";
-  const [answerError, setAnswerError] = useState(false);
+  const navigate = useNavigate();
 
-  const clickHandler = () => {
-    if (!answerValue) {
-      setAnswerError(true);
-    } else {
-      setAnswerError(false);
+  const goToNextPage = () => {
+    if (Object.keys(errors).length === 0) {
+      navigate("/step-two");
     }
   };
+
+  const onFillSubmit = (data) => {
+    console.table(data);
+    goToNextPage()
+  };
+
 
   return (
     <div className="container">
@@ -28,29 +46,30 @@ const StepOne = () => {
           <ProgressBar currentStep={1} />
           <div className="question">
             <Heading text="1. Занимательный вопрос" headingType="h2" />
-            <label className="input-wrapper">
-              <Input
-                hasError={answerError}
-                value={answerValue}
-                  onChange={(value) => saveUserAnswer(questionId, value)}
-                id="username"
-                isRequired
-                inputPlaceholder="Ваш ответ"
-                errorMessage="Напишите свой ответ"
-              />
-              <Span
-                id="error-message"
-                text="Введите номер в правильном формате, например"
-              />
-            </label>
-            <LinkButton
-              path="/step-two"
-              onClick={clickHandler}
-              buttonType="button"
-              buttonText="Далее"
-              isDisabled={!answerValue}
-              id="next-btn"
-            />
+            <form onSubmit={handleSubmit(onFillSubmit)}>
+              <label className="input-wrapper">
+                <Controller
+                  name="firstanswer"
+                  control={control}
+                  render={({ field }) => (
+                    <AppInput
+                      inputLabel="1. Занимательный вопрос"
+                      inputPlaceholder="Ваш ответ"
+                      inputType="text"
+                      errorMessage={errors.firstanswer?.message}
+                      hasError={errors.firstanswer ? true : false}
+                      {...field}
+                    />
+                  )}
+                />
+
+                <Span
+                  id="error-message"
+                  text="Введите номер в правильном формате, например"
+                />
+              </label>
+              <Button buttonType="submit" buttonText="Далее" />
+            </form>
           </div>
         </div>
       </div>

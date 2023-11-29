@@ -1,63 +1,48 @@
-import React, { useState, useContext,useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button } from "../components/Button";
+import React, { useContext } from "react";
 import { Heading } from "../components/Heading";
-import { Input } from "../components/input";
+import { AppInput } from "../components/UI/AppInput";
 import { ThemeContext, themes } from "../contexts/themeContext";
-import { QuizContext } from "../contexts/QuizContext";
-  
+import { Controller, useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Button } from "../components/Button";
+import { useNavigate } from "react-router-dom";
+
+const regexUzbNumber = /^(?:\+998)?(?:\d{2})?(?:\d{7})$/;
+
+const WelcomeFormSchema = yup.object({
+  usersname: yup.string().required("Обьязательное поле"),
+  usersphone: yup
+    .string()
+    .matches(regexUzbNumber, "Введите узбекский номер телефона!")
+    .required("Обьязательное поле"),
+});
+
 const Welcome = () => {
-  const { saveUserAnswer } = useContext(QuizContext);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(WelcomeFormSchema),
+    defaultValues: {
+      usersname: "",
+      usersphone: "",
+    },
+  });
+
   const navigate = useNavigate();
-
-  const [nameValue, setNameValue] = useState("");
-  const [phoneValue, setPhoneValue] = useState("");
-
-  const [nameError, setNameError] = useState(false);
-  const [phoneError, setPhoneError] = useState(false);
 
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   const goToNextPage = () => {
-    if (nameValue && phoneValue) {
-      saveUserAnswer("name", nameValue);
-      saveUserAnswer("phone", phoneValue);
+    if (Object.keys(errors).length === 0) {
       navigate("/step-one");
     }
   };
 
-  useEffect(() => {
-  console.log("ваши данные", nameValue,phoneValue);
-  }, [ nameValue,phoneValue]);
-
-  const validateName = () => {
-    if (!nameValue) {
-      setNameError(true);
-    } else {
-      setNameError(false);
-    }
-  };
-
-  const validatePhone = () => {
-    if (!phoneValue) {
-      setPhoneError(true);
-    } else {
-      setPhoneError(false);
-    }
-  };
-
-  const handleNameInput = (value) => {
-    setNameValue(value);
-    validateName();
-  };
-  const handlePhoneInput = (value) => {
-    setPhoneValue(value);
-    validatePhone();
-  };
-
-  const clickHandler = () => {
-    validateName();
-    validatePhone();
+  const onFillSubmit = (data) => {
+    console.table(data);
     goToNextPage();
   };
 
@@ -72,33 +57,37 @@ const Welcome = () => {
             headingType="h1"
             text="Добро пожаловать в квиз от лучшего учебного центра"
           />
-          <form className="welcome__form">
-            <Input
-              hasError={nameError}
-              value={nameValue}
-              onChange={(value) => handleNameInput(value)}
-              id="username"
-              isRequired
-              inputLabel="Ваше имя"
-              inputPlaceholder="Ваш ответ"
-              errorMessage="Введите ваше имя"
+          <form className="welcome__form" onSubmit={handleSubmit(onFillSubmit)}>
+            <Controller
+              name="usersname"
+              control={control}
+              render={({ field }) => (
+                <AppInput
+                  inputLabel="Ваше имя"
+                  inputPlaceholder="Ваш ответ"
+                  inputType="text"
+                  errorMessage={errors.usersname?.message}
+                  hasError={errors.usersname ? true : false}
+                  {...field}
+                />
+              )}
             />
-            <Input
-              hasError={phoneError}
-              value={phoneValue}
-              onChange={(value) => handlePhoneInput(value)}
-              id="phone"
-              isRequired
-              inputLabel="Ваше номер"
-              inputPlaceholder="Ваш ответ"
-              errorMessage="Введите номер в правильном формате"
+            <Controller
+              name="usersphone"
+              control={control}
+              render={({ field }) => (
+                <AppInput
+                  inputLabel="Ваше номер"
+                  inputPlaceholder="Ваш ответ"
+                  inputType="tel"
+                  errorMessage={errors.usersphone?.message}
+                  hasError={errors.usersphone ? true : false}
+                  {...field}
+                />
+              )}
             />
             <label className="input-wrapper" htmlFor="username"></label>
-            <Button
-              onClick={clickHandler}
-              buttonType="button"
-              buttonText="Далее"
-            />
+            <Button buttonType="submit" buttonText="Далее" />
           </form>
         </div>
       </div>

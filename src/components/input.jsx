@@ -10,6 +10,7 @@ export const Input = ({
   hasError,
   value,
   onChange,
+  ...props
 }) => {
   return (
     <label className={`input-wrapper ${hasError && "_error"}`} htmlFor={id}>
@@ -22,6 +23,7 @@ export const Input = ({
         placeholder={inputPlaceholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        {...props}
       />
       {hasError && <span id="error-message">{errorMessage}</span>}
     </label>

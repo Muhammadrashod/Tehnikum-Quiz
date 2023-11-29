@@ -9,7 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 const regexUzbNumber = /^(?:\+998)?(?:\d{2})?(?:\d{7})$/;
 
-const acceptFormChema = yup.object({
+const acceptFormSchema = yup.object({
   username: yup.string().required("Обьязательное поле"),
   userphone: yup
     .string()
@@ -20,8 +20,12 @@ const acceptFormChema = yup.object({
 });
 
 export const AcceptPage = () => {
-  const { control, handleSubmit, formState: { errors } } = useForm({
-    resolver: yupResolver(acceptFormChema),
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(acceptFormSchema),
     defaultValues: {
       username: "",
       userphone: "",
@@ -97,7 +101,11 @@ export const AcceptPage = () => {
             )}
           />
 
-          <Button isDisabled={!!Object.keys(errors).length} buttonType="submit" buttonText="Далее" />
+          <Button
+            isDisabled={!!Object.keys(errors).length}
+            buttonType="submit"
+            buttonText="Далее"
+          />
         </form>
       </div>
     </div>
