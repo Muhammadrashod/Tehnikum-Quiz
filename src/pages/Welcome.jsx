@@ -77,7 +77,7 @@ const Welcome = () => {
               control={control}
               render={({ field }) => (
                 <AppInput
-                  inputLabel="Ваше номер"
+                  inputLabel="Ваш номер"
                   inputPlaceholder="Ваш ответ"
                   inputType="tel"
                   errorMessage={errors.usersphone?.message}
