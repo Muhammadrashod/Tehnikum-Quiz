@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ProgressBar } from "../components/ProgressBar";
 import { AnswerItem } from "../components/AnswerItem";
 import { LinkButton } from "../components/LinkButton";
 import { Heading } from "../components/Heading";
-import { QuizContext } from "../contexts/QuizContext";
+import { useForm } from "react-hook-form";
 
 const StepTwo = () => {
-  const { userAnswers, saveUserAnswer } = useContext(QuizContext);
+  const { register, handleSubmit, errors } = useForm();
   const [checkedAnswer, setCheckedAnswer] = useState(null);
 
   const variants = [
@@ -28,13 +28,12 @@ const StepTwo = () => {
     },
   ];
 
-  useEffect(() => {
-    console.log("Ваш вариант", userAnswers);
-  }, [userAnswers]);
+  const onSubmit = (data) => {
+    console.log(data);
+  };
 
   const handleAnswerChange = (answerId) => {
     setCheckedAnswer(answerId);
-    saveUserAnswer("question2", answerId);
   };
 
   return (
@@ -44,24 +43,27 @@ const StepTwo = () => {
           <ProgressBar currentStep={2} />
           <div className="question">
             <Heading text="2. Занимательный вопрос" headingType="h2" />
-            <ul className="variants">
-              {variants.map((elem) => (
-                <AnswerItem
-                  key={elem.id}
-                  id={elem.id}
-                  answerLabel={elem.answerLabel}
-                  onChange={() => handleAnswerChange(elem.id)}
-                  isChecked={elem.id === checkedAnswer}
-                />
-              ))}
-            </ul>
-            <LinkButton
-              path="/step-three"
-              buttonType="button"
-              buttonText="Далее"
-              isDisabled={!checkedAnswer}
-              id="next-btn"
-            />
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <ul className="variants">
+                {variants.map((elem) => (
+                  <AnswerItem
+                    key={elem.id}
+                    id={elem.id}
+                    answerLabel={elem.answerLabel}
+                    onChange={() => handleAnswerChange(elem.id)}
+                    isChecked={elem.id === checkedAnswer}
+                  />
+                ))}
+              </ul>
+              {errors.checkedAnswer && <p>Выберите ответ</p>}
+              <LinkButton
+                path="/step-three"
+                buttonType="submit"
+                buttonText="Далее"
+                isDisabled={!checkedAnswer}
+                id="next-btn"
+              />
+            </form>
           </div>
         </div>
       </div>
