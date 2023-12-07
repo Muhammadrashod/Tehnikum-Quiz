@@ -1,12 +1,28 @@
 import React, { useState } from "react";
 import { ProgressBar } from "../components/ProgressBar";
 import { AnswerItem } from "../components/AnswerItem";
-import { LinkButton } from "../components/LinkButton";
 import { Heading } from "../components/Heading";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import { Button } from "../components/Button";
+import { useNavigate } from "react-router-dom";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const secondQuestionSchema = yup.object({
+  firstanswer: yup.string().required("Обьязательное поле"),
+});
 
 const StepTwo = () => {
-  const { register, handleSubmit, errors } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(secondQuestionSchema),
+    defaultValues: {
+      secondanswer: "",
+    },
+  });
   const [checkedAnswer, setCheckedAnswer] = useState(null);
 
   const variants = [
@@ -28,12 +44,21 @@ const StepTwo = () => {
     },
   ];
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
-
   const handleAnswerChange = (answerId) => {
     setCheckedAnswer(answerId);
+  };
+
+  const navigate = useNavigate();
+
+  const goToNextPage = () => {
+    if (Object.keys(errors).length === 0) {
+      navigate("/step-three");
+    }
+  };
+
+  const onFillSubmit = (data) => {
+    console.table(data);
+    goToNextPage();
   };
 
   return (
@@ -43,26 +68,27 @@ const StepTwo = () => {
           <ProgressBar currentStep={2} />
           <div className="question">
             <Heading text="2. Занимательный вопрос" headingType="h2" />
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onFillSubmit)}>
               <ul className="variants">
                 {variants.map((elem) => (
-                  <AnswerItem
-                    key={elem.id}
-                    id={elem.id}
-                    answerLabel={elem.answerLabel}
-                    onChange={() => handleAnswerChange(elem.id)}
-                    isChecked={elem.id === checkedAnswer}
+                  <Controller
+                    name="secondanswer"
+                    control={register}
+                    render={({ field }) => (
+                      <AnswerItem
+                        key={elem.id}
+                        id={elem.id}
+                        answerLabel={elem.answerLabel}
+                        onChange={() => handleAnswerChange(elem.id)}
+                        isChecked={elem.id === checkedAnswer}
+                        {...field}
+                      />
+                    )}
                   />
                 ))}
               </ul>
               {errors.checkedAnswer && <p>Выберите ответ</p>}
-              <LinkButton
-                path="/step-three"
-                buttonType="submit"
-                buttonText="Далее"
-                isDisabled={!checkedAnswer}
-                id="next-btn"
-              />
+              <Button buttonType="submit" buttonText="Далее" />
             </form>
           </div>
         </div>
