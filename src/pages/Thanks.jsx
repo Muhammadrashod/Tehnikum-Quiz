@@ -2,10 +2,10 @@ import React, { useContext } from "react";
 import { QuizContext } from "../contexts/QuizContext";
 
 const Thanks = () => {
-  const { userAnswers } = useContext(QuizContext);
-  const selectedAnswer = userAnswers; 
+  const { userAnswers, quizCompleted } = useContext(QuizContext);
+  const selectedAnswers = userAnswers;
 
-  const formattedSelectedAnswer = JSON.stringify(selectedAnswer);
+  const formattedSelectedAnswers = JSON.stringify(selectedAnswers, null, 2);
 
   return (
     <div className="container">
@@ -14,10 +14,15 @@ const Thanks = () => {
           <img src="./img/bell.png" alt="bell" />
           <h1>Спасибо за прохождение опроса!</h1>
           <p>Получи свою скидку по ссылке ниже или другое блаблабла</p>
-          <p>Ваши выбранные ответы: {formattedSelectedAnswer}</p> {}
-          <button type="button" id="get-link">
-            Получить ссылку
-          </button>
+          {quizCompleted && (
+            <>
+              <p>Ваши выбранные ответы:</p>
+              <pre>{formattedSelectedAnswers}</pre>
+              <button type="button" id="get-link">
+                Получить ссылку
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>

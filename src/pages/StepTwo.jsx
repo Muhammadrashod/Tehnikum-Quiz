@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ProgressBar } from "../components/ProgressBar";
-import { AnswerItem } from "../components/AnswerItem";
+import AnswerItem from "../components/AnswerItem";
 import { Heading } from "../components/Heading";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "../components/Button";
@@ -9,14 +9,16 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 const secondQuestionSchema = yup.object({
-  firstanswer: yup.string().required("Обьязательное поле"),
+  secondanswer: yup.string().required("Выберите ответ"),
 });
 
 const StepTwo = () => {
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
+    setValue,
+    getValues,
   } = useForm({
     resolver: yupResolver(secondQuestionSchema),
     defaultValues: {
@@ -56,9 +58,12 @@ const StepTwo = () => {
     }
   };
 
-  const onFillSubmit = (data) => {
-    console.table(data);
-    goToNextPage();
+  const onFillSubmit = () => {
+    const selectedAnswer = getValues("secondanswer");
+    if (selectedAnswer) {
+      console.table("Selected Answer:", selectedAnswer);
+      goToNextPage();
+    }
   };
 
   return (
@@ -72,8 +77,9 @@ const StepTwo = () => {
               <ul className="variants">
                 {variants.map((elem) => (
                   <Controller
+                    key={elem.id}
                     name="secondanswer"
-                    control={register}
+                    control={control}
                     render={({ field }) => (
                       <AnswerItem
                         key={elem.id}
@@ -81,14 +87,18 @@ const StepTwo = () => {
                         answerLabel={elem.answerLabel}
                         onChange={() => handleAnswerChange(elem.id)}
                         isChecked={elem.id === checkedAnswer}
-                        {...field}
+                        field={field}
                       />
                     )}
                   />
                 ))}
               </ul>
-              {errors.checkedAnswer && <p>Выберите ответ</p>}
-              <Button buttonType="submit" buttonText="Далее" />
+              {errors.secondanswer && <p>{errors.secondanswer.message}</p>}
+              <Button
+                buttonType="submit"
+                buttonText="Далее"
+                disabled={Object.keys(errors).length > 0}
+              />
             </form>
           </div>
         </div>

@@ -1,11 +1,31 @@
-import React, { useState, useContext,useEffect } from "react";
+import React, { useState } from "react";
 import { ProgressBar } from "../components/ProgressBar";
 import { AnswerPhoto } from "../components/AnswerPhoto";
-import { LinkButton } from "../components/LinkButton";
-import { QuizContext } from "../contexts/QuizContext";
+import { Heading } from "../components/Heading";
+import { Controller, useForm } from "react-hook-form";
+import { Button } from "../components/Button";
+import { useNavigate } from "react-router-dom";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const thirdQuestionSchema = yup.object({
+  thirdanswer: yup.string().required("Выберите ответ"),
+});
 
 const StepThree = () => {
-  const { userAnswers, saveUserAnswer } = useContext(QuizContext);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    getValues,
+  } = useForm({
+    resolver: yupResolver(thirdQuestionSchema),
+    defaultValues: {
+      thirdanswer: "",
+    },
+  });
+
   const [checkedAnswer, setCheckedAnswer] = useState(null);
 
   const variants = [
@@ -31,14 +51,24 @@ const StepThree = () => {
     },
   ];
 
-  useEffect(() => {
-    console.log("Ваш вариант", userAnswers);
-  }, [userAnswers]);
-
-
   const handleAnswerChange = (answerId) => {
     setCheckedAnswer(answerId);
-    saveUserAnswer("question3", answerId);
+  };
+
+  const navigate = useNavigate();
+
+  const goToNextPage = () => {
+    if (Object.keys(errors).length === 0) {
+      navigate("/step-four");
+    }
+  };
+
+  const onFillSubmit = () => {
+    const selectedAnswer = getValues("thirdanswer");
+    if (selectedAnswer) {
+      console.table("Selected Answer:", selectedAnswer);
+      goToNextPage();
+    }
   };
 
   return (
@@ -47,26 +77,35 @@ const StepThree = () => {
         <div className="emoji-quiz">
           <ProgressBar currentStep={3} />
           <div className="question">
-            <h2>3. Занимательный вопрос</h2>
-            <ul className="emoji-variants">
-              {variants.map((elem) => (
-                <AnswerPhoto
-                  src={elem.src}
-                  key={elem.id}
-                  id={elem.id}
-                  answerLabel={elem.answerLabel}
-                  onChange={() => handleAnswerChange(elem.id)}
-                  isChecked={elem.id === checkedAnswer}
-                />
-              ))}
-            </ul>
-            <LinkButton
-              path="/step-four"
-              buttonType="button"
-              buttonText="Далее"
-              isDisabled={!checkedAnswer}
-              id="next-btn"
-            />
+            <Heading text="3. Занимательный вопрос" headingType="h2" />
+            <form onSubmit={handleSubmit(onFillSubmit)}>
+              <ul className="emoji-variants">
+                {variants.map((elem) => (
+                  <Controller
+                    key={elem.id}
+                    name="thirdanswer"
+                    control={control}
+                    render={({ field }) => (
+                      <AnswerPhoto
+                        src={elem.src}
+                        key={elem.id}
+                        id={elem.id}
+                        answerLabel={elem.answerLabel}
+                        onChange={() => handleAnswerChange(elem.id)}
+                        isChecked={elem.id === checkedAnswer}
+                        field={field}
+                      />
+                    )}
+                  />
+                ))}
+              </ul>
+              {errors.thirdanswer && <p>{errors.thirdanswer.message}</p>}
+              <Button
+                buttonType="submit"
+                buttonText="Далее"
+                disabled={Object.keys(errors).length > 0}
+              />{" "}
+            </form>
           </div>
         </div>
       </div>

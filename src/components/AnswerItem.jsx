@@ -1,18 +1,21 @@
 import React from "react";
 
-export const AnswerItem = ({ value, id, answerLabel, isChecked, onChange }) => {
+const AnswerItem = ({ id, answerLabel, field, isChecked, onChange }) => {
   return (
     <li className="variant-wrapper">
       <input
-        value={value}
-        onChange={onChange}
-        checked={isChecked}
-        required
         type="radio"
-        name="question"
         id={id}
+        checked={isChecked}
+        onChange={() => {
+          field.onChange(id);
+          onChange(id);
+        }}
+        required
       />
       <label htmlFor={id}>{answerLabel}</label>
     </li>
   );
 };
+
+export default AnswerItem;
